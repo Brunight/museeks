@@ -1,3 +1,16 @@
+# 🔱 This is a fork!!
+## 🔨 Changes
+
+- Dark theme updated, inspired in [Omni Theme](https://github.com/GetOmni);
+- More spotlight to the cover art (From 48px to 512px);
+
+## 🎨 Preview
+
+### Before
+![Before](before.png)
+### After
+![After](after.png)
+
 # Museeks
 
 ![Build Status](https://github.com/martpie/museeks/workflows/build/badge.svg)

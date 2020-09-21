@@ -5,7 +5,6 @@ import ClickOutHandler from 'react-onclickout';
 
 import Queue from '../Queue/Queue';
 import PlayingBarInfos from '../PlayingBarInfo/PlayingBarInfo';
-import Cover from '../Cover/Cover';
 import { TrackModel, Repeat } from '../../../shared/types/interfaces';
 
 import * as styles from './PlayingBar.css';
@@ -60,9 +59,6 @@ export default class PlayingBar extends React.Component<Props, State> {
 
     return (
       <div className={styles.playingBar}>
-        <div className={styles.playingBar__cover}>
-          <Cover path={trackPlaying.path} />
-        </div>
         <PlayingBarInfos trackPlaying={trackPlaying} shuffle={shuffle} repeat={repeat} />
         <div className={styles.playingBar__queue}>
           <ClickOutHandler onClickOut={this.closeQueue}>

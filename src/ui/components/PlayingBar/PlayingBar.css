@@ -5,11 +5,6 @@
   text-align: center;
 }
 
-.playing-bar__cover {
-  width: 60px;
-  flex: 0 0 auto;
-}
-
 .playing-bar__queue {
   -webkit-app-region: no-drag;
   width: 60px;

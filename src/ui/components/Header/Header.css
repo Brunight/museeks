@@ -18,12 +18,36 @@
   padding: 0 10px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  height: 50px;
+  justify-content: center;
+  height: 560px;
   flex: 0 0 auto;
 
   /* Draggable region (zone able to move the window) */
   -webkit-app-region: drag;
+}
+
+.header__container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__cover {
+  width: 100%;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.header__rest {
+  width: 100%;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .header__main-controls {
@@ -32,6 +56,7 @@
   display: flex;
   align-items: center;
   padding-right: 10px;
+  justify-content: center;
 }
 
 .header__search {

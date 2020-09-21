@@ -5,6 +5,7 @@ import KeyBinding from 'react-keybinding-component';
 
 import PlayingBar from '../PlayingBar/PlayingBar';
 import PlayerControls from '../PlayerControls/PlayerControls';
+import Cover from '../Cover/Cover';
 
 import * as LibraryActions from '../../actions/LibraryActions';
 import { isCtrlKey } from '../../utils/utils-platform';
@@ -50,23 +51,32 @@ class Header extends React.Component<Props> {
     const { playerStatus, queue, queueCursor, shuffle, repeat } = this.props;
 
     return (
-      <header className={styles.header}>
-        <div className={styles.header__mainControls}>
-          <PlayerControls playerStatus={playerStatus} />
-        </div>
-        <div className={styles.header__playingBar}>
-          <PlayingBar queue={queue} queueCursor={queueCursor} shuffle={shuffle} repeat={repeat} />
-        </div>
-        <div className={styles.header__search}>
-          <Input
-            selectOnClick
-            placeholder='search'
-            className={styles.header__search__input}
-            changeTimeout={250}
-            clearButton
-            ref={this.input}
-            onChange={this.search}
-          />
+      <header className={styles.header} style={queueCursor === null ? {height: '50px'} : {}}>
+        <div className={styles.header__container}>
+          {queueCursor !== null && (
+            <div className={styles.header__cover}>
+              <Cover path={queue[queueCursor].path} />
+            </div>
+          )}
+          <div className={styles.header__rest}>
+            <div className={styles.header__mainControls}>
+              <PlayerControls playerStatus={playerStatus} />
+            </div>
+            <div className={styles.header__playingBar}>
+              <PlayingBar queue={queue} queueCursor={queueCursor} shuffle={shuffle} repeat={repeat} />
+            </div>
+            <div className={styles.header__search}>
+              <Input
+                selectOnClick
+                placeholder='search'
+                className={styles.header__search__input}
+                changeTimeout={250}
+                clearButton
+                ref={this.input}
+                onChange={this.search}
+              />
+            </div>
+          </div>
         </div>
         <KeyBinding onKey={this.onKey} preventInputConflict />
       </header>
