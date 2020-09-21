@@ -34,12 +34,16 @@
     "--search-bg": "#191622",
     "--slider-bg": "#191622",
 
-    "--scrollbar-track": "#FF79C6",
+    "--scrollbar-track": "#988bc7",
     "--scrollbar-thumb": "rgba(255, 255, 255, 0.2)",
 
     "--queue-bg": "#191622",
     "--queue-header-bg": "#201B2D",
 
-    "--checkbox-bg": "#555555"
+    "--checkbox-bg": "#555555",
+
+
+    
+    "--main-color": "#FF79C6"
   }
 }
