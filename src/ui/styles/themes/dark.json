@@ -1,44 +1,44 @@
 {
   "name": "Dark",
   "variables": {
-    "--text-color": "#EEEEEE",
-    "--view-bg": "#23292B",
+    "--text-color": "#E1E1E6",
+    "--view-bg": "#191622",
     "--border-color": "#1F1F1F",
     "--border-radius": "2px",
 
-    "--header-color": "#EEEEEE",
-    "--header-bg": "#33393b",
+    "--header-color": "#E1E1E6",
+    "--header-bg": "#201B2D",
 
-    "--footer-bg": "#33393B",
-    "--footer-nav-bg-color-active": "#23292B",
+    "--footer-bg": "#201B2D",
+    "--footer-nav-bg-color-active": "#191622",
 
-    "--tracks-bg-even": "#23292B",
-    "--tracks-bg-odd": "#2E3436",
+    "--tracks-bg-even": "#191622",
+    "--tracks-bg-odd": "#988bc7",
 
-    "--tracks-header-bg": "#23292B",
-    "--tracks-header-color": "#EEEEEE",
+    "--tracks-header-bg": "#191622",
+    "--tracks-header-color": "#E1E1E6",
 
-    "--success-color": "#5CB85C",
-    "--info-color": "#5BC0DE",
+    "--success-color": "#67e480",
+    "--info-color": "#78D1E1",
     "--warning-color": "#F0AD4E",
-    "--danger-color": "#D9534F",
+    "--danger-color": "#E96379",
 
-    "--toasts-bg": "#23292B",
+    "--toasts-bg": "#191622",
 
-    "--progress-bg": "#23292B",
+    "--progress-bg": "#191622",
 
-    "--sidebar-bg": "#33393b",
-    "--sidebar-item-active-bg": "#23292B",
+    "--sidebar-bg": "#201B2D",
+    "--sidebar-item-active-bg": "#191622",
     "--sidebar-item-input-bg": "white",
 
-    "--search-bg": "#23292B",
-    "--slider-bg": "#23292B",
+    "--search-bg": "#191622",
+    "--slider-bg": "#191622",
 
-    "--scrollbar-track": "#293032",
+    "--scrollbar-track": "#FF79C6",
     "--scrollbar-thumb": "rgba(255, 255, 255, 0.2)",
 
-    "--queue-bg": "#23292B",
-    "--queue-header-bg": "#33393b",
+    "--queue-bg": "#191622",
+    "--queue-header-bg": "#201B2D",
 
     "--checkbox-bg": "#555555"
   }
