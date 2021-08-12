@@ -2,17 +2,16 @@
  * Module in charge of the Tray
  */
 
-import * as os from 'os';
-import * as path from 'path';
+import os from 'os';
+import path from 'path';
 import ps from 'ps-node';
 import { Tray, Menu, app, ipcMain, nativeImage } from 'electron';
 
-import { TrackModel, PlayerStatus } from '../../shared/types/interfaces';
+import { TrackModel, PlayerStatus } from '../../shared/types/museeks';
+import channels from '../../shared/lib/ipc-channels';
 import ModuleWindow from './module-window';
-import ConfigModule from './config';
 
 class TrayModule extends ModuleWindow {
-  protected config: ConfigModule;
   protected tray: Electron.Tray | null;
   protected trayIcon: Electron.NativeImage;
   protected playToggle: Electron.MenuItemConstructorOptions[];
@@ -21,12 +20,11 @@ class TrayModule extends ModuleWindow {
   protected menu: Electron.MenuItemConstructorOptions[];
   protected status: PlayerStatus;
 
-  constructor(window: Electron.BrowserWindow, config: ConfigModule) {
+  constructor(window: Electron.BrowserWindow) {
     super(window);
 
     this.platforms = ['linux', 'win32'];
 
-    this.config = config;
     this.tray = null;
     this.playToggle = [];
     this.pauseToggle = [];
@@ -53,7 +51,7 @@ class TrayModule extends ModuleWindow {
     else if (os.platform() === 'darwin') this.trayIcon = trayIcons['tray-darwin-dark'];
   }
 
-  async load() {
+  async load(): Promise<void> {
     // Fix for gnome-shell and high-dpi
     if (os.platform() === 'linux') {
       ps.lookup(
@@ -90,7 +88,7 @@ class TrayModule extends ModuleWindow {
       {
         label: 'Play',
         click: () => {
-          this.window.webContents.send('playback:play');
+          this.window.webContents.send(channels.PLAYBACK_PLAY);
         },
       },
     ];
@@ -99,7 +97,7 @@ class TrayModule extends ModuleWindow {
       {
         label: 'Pause',
         click: () => {
-          this.window.webContents.send('playback:pause');
+          this.window.webContents.send(channels.PLAYBACK_PAUSE);
         },
       },
     ];
@@ -108,13 +106,13 @@ class TrayModule extends ModuleWindow {
       {
         label: 'Previous',
         click: () => {
-          this.window.webContents.send('playback:previous');
+          this.window.webContents.send(channels.PLAYBACK_PREVIOUS);
         },
       },
       {
         label: 'Next',
         click: () => {
-          this.window.webContents.send('playback:next');
+          this.window.webContents.send(channels.PLAYBACK_NEXT);
         },
       },
       {
@@ -140,17 +138,17 @@ class TrayModule extends ModuleWindow {
     ];
 
     // Load events listener for player actions
-    ipcMain.on('playback:play', () => {
+    ipcMain.on(channels.PLAYBACK_PLAY, () => {
       this.status = PlayerStatus.PLAY;
       this.setContextMenu(PlayerStatus.PLAY);
     });
 
-    ipcMain.on('playback:pause', () => {
+    ipcMain.on(channels.PLAYBACK_PAUSE, () => {
       this.status = PlayerStatus.PAUSE;
       this.setContextMenu(PlayerStatus.PAUSE);
     });
 
-    ipcMain.on('playback:trackChange', (_e: Event, track: TrackModel) => {
+    ipcMain.on(channels.PLAYBACK_TRACK_CHANGE, (_e: Event, track: TrackModel) => {
       this.status = PlayerStatus.PLAY;
       this.updateTrayMetadata(track);
       this.setContextMenu(PlayerStatus.PLAY);
@@ -165,7 +163,7 @@ class TrayModule extends ModuleWindow {
     });
   }
 
-  create() {
+  create(): void {
     this.tray = new Tray(this.trayIcon);
     this.tray.setToolTip('Museeks');
 
@@ -184,13 +182,13 @@ class TrayModule extends ModuleWindow {
     this.setContextMenu(this.status);
   }
 
-  destroy() {
+  destroy(): void {
     if (this.tray) {
       this.tray.destroy();
     }
   }
 
-  setContextMenu(state: PlayerStatus) {
+  setContextMenu(state: PlayerStatus): void {
     const playPauseItem = state === 'play' ? this.pauseToggle : this.playToggle;
     const menuTemplate = [...this.songDetails, ...playPauseItem, ...this.menu];
 
@@ -199,13 +197,13 @@ class TrayModule extends ModuleWindow {
     }
   }
 
-  refreshTrayIcon() {
+  refreshTrayIcon(): void {
     if (this.tray) {
       this.tray.setImage(this.trayIcon);
     }
   }
 
-  updateTrayMetadata(track: TrackModel) {
+  updateTrayMetadata(track: TrackModel): void {
     this.songDetails = [
       {
         label: `${track.title}`,
