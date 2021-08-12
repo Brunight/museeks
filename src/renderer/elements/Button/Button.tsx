@@ -1,0 +1,26 @@
+import React from 'react';
+import cx from 'classnames';
+
+import styles from './Button.module.css';
+
+interface Props {
+  relevancy?: 'danger';
+  bSize?: 'small';
+}
+
+const Button: React.FC<Props & JSX.IntrinsicElements['button']> = (props) => {
+  const { relevancy, bSize, ...rest } = props;
+
+  const classes = cx(styles.button, {
+    [styles.danger]: relevancy === 'danger',
+    [styles.small]: bSize === 'small',
+  });
+
+  return (
+    <button className={classes} {...rest}>
+      {props.children}
+    </button>
+  );
+};
+
+export default Button;

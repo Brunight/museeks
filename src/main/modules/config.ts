@@ -2,11 +2,11 @@
  * Essential module for creating/loading the app config
  */
 
-import * as path from 'path';
-import * as electron from 'electron';
+import path from 'path';
+import electron from 'electron';
 import teeny from 'teeny-conf';
 
-import { Config, Repeat, SortBy, SortOrder } from '../../shared/types/interfaces';
+import { Config, Repeat, SortBy, SortOrder } from '../../shared/types/museeks';
 import Module from './module';
 
 const { app } = electron;
@@ -21,8 +21,8 @@ class ConfigModule extends Module {
     this.workArea = electron.screen.getPrimaryDisplay().workArea;
   }
 
-  async load() {
-    const defaultConfig: Record<string, any> = this.getDefaultConfig();
+  async load(): Promise<void> {
+    const defaultConfig: Partial<Config> = this.getDefaultConfig();
     const pathUserData = app.getPath('userData');
 
     this.conf = new teeny(path.join(pathUserData, 'config.json'), defaultConfig);
@@ -43,13 +43,14 @@ class ConfigModule extends Module {
 
   getDefaultConfig(): Config {
     const config: Config = {
-      theme: 'light',
+      theme: '__system',
       audioVolume: 1,
       audioPlaybackRate: 1,
       audioOutputDevice: 'default',
       audioMuted: false,
       audioShuffle: false,
       audioRepeat: Repeat.NONE,
+      defaultView: 'library',
       librarySort: {
         by: SortBy.ARTIST,
         order: SortOrder.ASC,
@@ -78,7 +79,7 @@ class ConfigModule extends Module {
     return this.conf.get() as Config; // Maybe possible to type TeenyConf with Generics?
   }
 
-  get(key: keyof Config) {
+  get<T extends keyof Config>(key: T): Config[T] {
     if (!this.conf) {
       throw new Error('Config not loaded');
     }
@@ -86,7 +87,23 @@ class ConfigModule extends Module {
     return this.conf.get(key);
   }
 
-  reload() {
+  set<T extends keyof Config>(key: T, value: Config[T]): void {
+    if (!this.conf) {
+      throw new Error('Config not loaded');
+    }
+
+    return this.conf.set(key, value);
+  }
+
+  save(): void {
+    if (!this.conf) {
+      throw new Error('Config not loaded');
+    }
+
+    return this.conf.save();
+  }
+
+  reload(): void {
     if (!this.conf) {
       throw new Error('Config not loaded');
     }

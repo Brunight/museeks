@@ -1,19 +1,22 @@
 const path = require('path');
 
+const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackBar = require('webpackbar');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 /**
  * Renderer process bundle
+ * @type {webpack.WebpackOptionsNormalized}
  */
-const uiConfig = {
+const rendererConfig = {
   entry: {
-    main: ['./src/ui/main.tsx'],
+    main: ['./src/renderer/main.tsx'],
   },
   output: {
-    path: `${__dirname}/dist/ui`,
+    path: `${__dirname}/dist/renderer`,
     filename: 'bundle.js',
     publicPath: './',
   },
@@ -25,10 +28,11 @@ const uiConfig = {
     }),
     new HtmlWebpackPlugin({
       title: 'Museeks',
-      template: 'src/app.html',
+      template: 'src/renderer/app.html',
     }),
     new WebpackBar({
-      name: 'UI  ',
+      name: 'Renderer',
+      color: 'green',
       basic: true,
     }),
   ],
@@ -36,6 +40,7 @@ const uiConfig = {
 
 /**
  * Main process bundle
+ * @type {webpack.WebpackOptionsNormalized}
  */
 const mainConfig = {
   entry: {
@@ -58,8 +63,8 @@ const mainConfig = {
   },
   plugins: [
     new WebpackBar({
-      name: 'Main',
-      color: 'yellow',
+      name: 'Main    ',
+      color: 'cyan',
       basic: true,
     }),
   ],
@@ -67,6 +72,7 @@ const mainConfig = {
 
 /**
  * Shared config
+ * @type {webpack.WebpackOptionsNormalized}
  */
 const sharedConfig = {
   resolve: {
@@ -76,83 +82,65 @@ const sharedConfig = {
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)([?]?.*)$/,
-        loader: ['ts-loader'],
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
+        oneOf: [
           {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                localIdentName: '[local]___[hash:base64:5]',
-                exportLocalsConvention: 'dashesOnly',
+            test: /\.(ts|tsx)([?]?.*)$/,
+            use: 'ts-loader',
+            exclude: /node_modules/,
+          },
+          {
+            test: /\.module\.css$/,
+            use: [
+              MiniCssExtractPlugin.loader,
+              {
+                loader: 'css-loader',
+                options: {
+                  modules: {
+                    localIdentName: '[local]___[hash:base64:5]',
+                    exportLocalsConvention: 'dashesOnly',
+                  },
+                  importLoaders: 1,
+                  sourceMap: true,
+                },
               },
-              importLoaders: 1,
-              sourceMap: true,
-            },
+              'postcss-loader',
+            ],
+            exclude: path.join(__dirname, 'node_modules'),
           },
-          'postcss-loader',
-        ],
-        exclude: path.join(__dirname, 'node_modules'),
-      },
-      {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
-        include: path.join(__dirname, 'node_modules'),
-      },
-      {
-        test: /\.(eot|woff|woff2|ttf)([?]?.*)$/,
-        use: [
           {
-            loader: 'file-loader',
-            options: {
-              name: '/fonts/[name].[ext]',
-              useRelativePath: true,
-            },
+            test: /\.css$/,
+            use: [MiniCssExtractPlugin.loader, 'css-loader'],
+            include: path.join(__dirname, 'node_modules'),
           },
-        ],
-      },
-      {
-        test: /\.(png|jpg|ico)([?]?.*)$/,
-        use: [
           {
-            loader: 'file-loader',
-            options: {
-              name: 'images/[name].[ext]',
-            },
+            test: /\.(eot|woff|woff2|ttf)([?]?.*)$/,
+            type: 'asset/resource',
           },
-        ],
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.svg$/,
-        use: ['svg-inline-loader'],
-        include: path.resolve(__dirname, 'src'),
-      },
-      {
-        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        use: [
           {
-            loader: 'url-loader',
-            options: {
-              mimetype: 'image/svg+xml',
-            },
+            test: /\.(png|jpg|ico)([?]?.*)$/,
+            type: 'asset/resource',
+            exclude: /node_modules/,
+          },
+          {
+            test: /\.svg$/,
+            use: 'svg-inline-loader',
+            include: path.resolve(__dirname, 'src'),
+          },
+          {
+            test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+            type: 'asset/resource',
+            include: /node_modules/,
+          },
+          {
+            test: /\.node$/,
+            use: 'node-loader',
+          },
+          {
+            // Hotfix for iconv-lite https://github.com/ashtuchkin/iconv-lite/issues/204
+            test: /node_modules[\/\\](iconv-lite)[\/\\].+/,
+            resolve: { aliasFields: ['main'] },
           },
         ],
-        include: /node_modules/,
-      },
-      {
-        test: /\.node$/,
-        use: 'node-loader',
-      },
-      {
-        // Hotfix for iconv-lite https://github.com/ashtuchkin/iconv-lite/issues/204
-        test: /node_modules[\/\\](iconv-lite)[\/\\].+/,
-        resolve: { aliasFields: ['main'] },
       },
     ],
   },
@@ -163,10 +151,11 @@ const sharedConfig = {
     modules: false,
     reasons: false,
   },
+  plugins: [new CleanWebpackPlugin()],
 };
 
 /**
  * Exports
  */
-module.exports.ui = webpackMerge.merge(uiConfig, sharedConfig);
+module.exports.renderer = webpackMerge.merge(rendererConfig, sharedConfig);
 module.exports.main = webpackMerge.merge(mainConfig, sharedConfig);
