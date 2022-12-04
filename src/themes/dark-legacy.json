@@ -4,6 +4,8 @@
   "themeSource": "dark",
   "variables": {
     "--text-color": "#E1E1E6",
+    "--text": "#E1E1E6",
+    "--background": "#191622",
     "--view-bg": "#191622",
     "--border-color": "#1F1F1F",
     "--border-radius": "2px",
@@ -42,7 +44,12 @@
     "--queue-bg": "#191622",
     "--queue-header-bg": "#201B2D",
 
-    "--checkbox-bg": "#555555",
+    
+    "--checkbox-bg": "#988bc7",
+    "--input-bg": "#988bc7",
+    "--input-color": "#E1E1E6",
+    "--button-bg": "#988bc7",
+    "--button-color": "#E1E1E6",
 
 
     
