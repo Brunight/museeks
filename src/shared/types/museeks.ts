@@ -110,7 +110,7 @@ export interface ConfigBounds {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyThemeID = string & { whatever?: any };
 // TODO: how to automate this? Maybe losen types to "string"
-type ThemeIDs = 'dark' | 'light' | AnyThemeID;
+type ThemeIDs = 'dark' | 'light' | 'omni' | AnyThemeID;
 
 export interface Config {
   theme: ThemeIDs | '__system';

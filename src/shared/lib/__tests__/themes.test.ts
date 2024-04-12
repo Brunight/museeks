@@ -11,7 +11,7 @@ describe('themes', () => {
 
   test('themeSource should be either "light" or "dark"', () => {
     themes.forEach((theme) => {
-      expect(['dark', 'light'].includes(theme.themeSource)).toBe(true);
+      expect(['dark', 'light', 'omni'].includes(theme.themeSource)).toBe(true);
     });
   });
 

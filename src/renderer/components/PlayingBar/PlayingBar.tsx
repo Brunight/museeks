@@ -1,5 +1,5 @@
 import PlayingBarInfos from '../PlayingBarInfo/PlayingBarInfo';
-import Cover from '../Cover/Cover';
+// import Cover from '../Cover/Cover';
 import usePlayerStore from '../../stores/usePlayerStore';
 import ButtonRepeat from '../PlayerOptionsButtons/ButtonRepeat';
 import ButtonShuffle from '../PlayerOptionsButtons/ButtonShuffle';
@@ -19,9 +19,9 @@ export default function PlayingBar() {
 
   return (
     <div className={styles.playingBar}>
-      <div className={styles.playingBar__cover}>
+      {/* <div className={styles.playingBar__cover}>
         <Cover track={trackPlaying} />
-      </div>
+      </div> */}
       <PlayingBarInfos
         trackPlaying={trackPlaying}
         shuffle={shuffle}

@@ -1,0 +1,55 @@
+{
+  "_id": "omni",
+  "name": "Omni",
+  "themeSource": "dark",
+  "variables": {
+    "--color-scheme": "dark",
+    "--text": "#E1E1E6",
+    "--background": "#191622",
+    "--faded-bg": "rgba(0, 0, 0, 0.8)",
+
+    "--border-color": "#1F1F1F",
+    "--border-color-softer": "hsl(216deg 0% 24%)",
+    "--border-radius": "2px",
+
+    "--header-color": "#E1E1E6",
+    "--header-bg": "#201B2D",
+    "--header-bg-softer": "hsl(216deg 0% 16%)",
+
+    "--footer-bg": "#201B2D",
+    "--footer-nav-bg-color-active": "#191622",
+
+    "--tracks-bg-even": "#191622",
+    "--tracks-bg-odd": "#15121E",
+
+    "--tracks-header-bg": "#191622",
+    "--tracks-header-color": "#E1E1E6",
+
+    "--success-color": "#67e480",
+    "--info-color": "#78D1E1",
+    "--warning-color": "#F0AD4E",
+    "--danger-color": "#E96379",
+
+    "--toasts-bg": "#191622",
+
+    "--progress-bg": "#191622",
+
+    "--sidebar-bg": "#201B2D",
+    "--sidebar-item-active-bg": "#191622",
+
+    "--search-bg": "#191622",
+    "--slider-bg": "#191622",
+
+    "--queue-bg": "#191622",
+    "--queue-header-bg": "#201B2D",
+
+    "--checkbox-bg": "#988bc7",
+    "--input-bg": "#988bc7",
+    "--input-color": "#E1E1E6",
+    "--button-bg": "#988bc7",
+    "--button-border": "rgb(255 255 255 / 0.2)",
+    "--button-color": "#E1E1E6",
+
+    "--main-color": "#FF79C6"
+  }
+}

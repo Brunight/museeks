@@ -145,33 +145,35 @@ const useLibraryStore = createStore<LibraryState>((set, get) => ({
         }
 
         // 5. Import the music tracks found the directories
-        const tracks: Track[] = await ipcRenderer.invoke(
-          channels.LIBRARY_IMPORT_TRACKS,
-          supportedTrackFiles,
-        );
+        if (supportedTrackFiles.length > 0) {
+          const tracks: Track[] = await ipcRenderer.invoke(
+            channels.LIBRARY_IMPORT_TRACKS,
+            supportedTrackFiles,
+          );
 
-        const batchSize = 100;
-        const chunkedTracks = chunk(tracks, batchSize);
-        let processed = 0;
+          const batchSize = 100;
+          const chunkedTracks = chunk(tracks, batchSize);
+          let processed = 0;
 
-        await Promise.allSettled(
-          chunkedTracks.map(async (chunk) => {
-            // First, let's see if some of those files are already inserted
-            const insertedChunk = await db.tracks.insertMultiple(chunk);
+          await Promise.allSettled(
+            chunkedTracks.map(async (chunk) => {
+              // First, let's see if some of those files are already inserted
+              const insertedChunk = await db.tracks.insertMultiple(chunk);
 
-            processed += batchSize;
+              processed += batchSize;
 
-            // Progress bar update
-            set({
-              refresh: {
-                processed,
-                total: tracks.length,
-              },
-            });
+              // Progress bar update
+              set({
+                refresh: {
+                  processed,
+                  total: tracks.length,
+                },
+              });
 
-            return insertedChunk;
-          }),
-        );
+              return insertedChunk;
+            }),
+          );
+        }
 
         // TODO: do not re-import existing tracks
 

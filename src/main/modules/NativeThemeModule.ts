@@ -50,6 +50,8 @@ export default class NativeThemeModule extends ModuleWindow {
     ipcMain.handle(channels.THEME_GET, () => {
       let themeID = this.getThemeID();
 
+      console.log(themeID)
+
       if (themeID === '__system') themeID = this.getSystemThemeID();
 
       const theme = themes.find((theme) => theme._id === themeID);

@@ -3,9 +3,10 @@
   align-items: center;
   text-align: center;
   height: 100%;
-  background: var(--header-bg-softer);
-  border: solid 1px var(--border-color-softer);
+  background-color: var(--header-bg);
   border-width: 0 1px;
+  
+  /* border: solid 1px var(--border-color-softer); */
 }
 
 .playingBar__cover {
